@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1= title
+  button.btn(onClick = "jQuery.get('/updateGallery' , function(data){alert(data);})", type = "button") 
+    i.icon-refresh
+
+  button.btn(onClick = 'alert("Not implemented")' , type = "button") 
+    i.icon-circle-arrow-down
+  button.btn(onClick = 'alert("Not implemented")' , type = "button") 
+    i.icon-eject
+
+  ul.thumbnails
+      for image in data
+        li.span4
+            div.thumbnail
+                //img(src="/preview?image=" +  '#{image.name}' , href="/image?image=" + '#{image.name}', style="-moz-transform: rotate(#{image.orientation}deg);")
+                a(href="/image?image=" + '#{image.name}')
+                    img(src="/preview?image=" +  '#{image.name}' )
+                h3 #{image.name}
+                table.table
+                    tbody
+                        tr
+                            td Kamera
+                            td #{image.camera}
+                        tr 
+                            td Aufnahme Zeitpunkt
+                            td #{image.timestamp}
+        
