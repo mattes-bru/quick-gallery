@@ -6,16 +6,15 @@
 var argv = require('optimist').string("gallery").argv;
 
 var express = require('express')
-  , routes = require('./routes')
-  , image = require('./routes/image')
   , http = require('http')
   , path = require('path');
 
-
+var gallery = require('./gallery');
 
 //var pictureDir = "/home/kll/Bilder/Weil_am_Rhein/Flug1/";
-var pictureDir = argv.gallery;
+var pictureDir = path.normalize( argv.gallery);
 
+gallery.update(pictureDir);
 
 var app = express();
 
@@ -37,13 +36,16 @@ app.configure('development', function(){
 });
 
 
-image.setDir(path.normalize( pictureDir));
-routes.setGallery(path.normalize( pictureDir));
 
-app.get('/', routes.index);
-app.get('/preview', image.preview);
-app.get('/image', image.image);
-app.get("/updateGallery" , routes.updateGallery);
+app.get('/', function(req, res){
+    res.render('index', { title: "Test" , data: gallery.getImages() });
+});
+app.get('/preview', gallery.preview);
+app.get('/image', gallery.image);
+app.get("/updateGallery" , function(req ,res){
+    gallery.update(pictureDir);
+    res.send(200 , "Scanning gallery in " + pictureDir);
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

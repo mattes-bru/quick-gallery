@@ -11,12 +11,12 @@ block content
     i.icon-eject
 
   ul.thumbnails
-      for image in data
+      for image , i in data
         li.span4
             div.thumbnail
-                //img(src="/preview?image=" +  '#{image.name}' , href="/image?image=" + '#{image.name}', style="-moz-transform: rotate(#{image.orientation}deg);")
-                a(href="/image?image=" + '#{image.name}')
-                    img(src="/preview?image=" +  '#{image.name}' )
+                //img(src="/preview?image=" +  '#{i}' , href="/image?image=" + '#{i}', style="-moz-transform: rotate(#{image.orientation}deg);")
+                a(href="/image?image=" + '#{i}')
+                    img(src="/preview?image=" +  '#{i}' )
                 h3 #{image.name}
                 table.table
                     tbody
@@ -26,4 +26,7 @@ block content
                         tr 
                             td Aufnahme Zeitpunkt
                             td #{image.timestamp}
+                        tr 
+                            td Ordner
+                            td #{image.path}
         
